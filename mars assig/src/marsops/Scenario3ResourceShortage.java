@@ -216,4 +216,10 @@ public class Scenario3ResourceShortage {
 
                 System.out.println("\n=== Scenario 3 Completed Successfully ===");
         }
+
+
+public static void main(String[] args) {
+        Scenario3ResourceShortage.run();
+}
+
 }
