@@ -13,11 +13,14 @@ public class Habitat extends Facility{
 
  // Composition: Habitat owns its LifeSupportSystem
     private final LifeSupportSystem lifeSupport;
+  
+    //constructor
+   public Habitat(String facilityId, String location, int capacity) {
 
-    public Habitat(String facilityId, String location, int capacity, LifeSupportSystem lifeSupport) {
-        super(facilityId, location, capacity);
-        this.lifeSupport = new LifeSupportSystem(); //composition owns a
-    }
+    super(facilityId, location, capacity);
+
+    this.lifeSupport = new LifeSupportSystem();
+}
 
 
     //delgation a public method to excess the life support system

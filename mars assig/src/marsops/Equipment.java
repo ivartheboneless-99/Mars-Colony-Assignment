@@ -28,13 +28,25 @@ private String capability;
 private boolean damaged;
 
 
-public Equipment(String equipmentId, String name, String capability, boolean damaged) {
+//constructor 
+public Equipment(String equipmentId, String name, String capability) {
+
+    if (equipmentId == null || equipmentId.isBlank()
+            || name == null || name.isBlank()
+            || capability == null || capability.isBlank()) {
+
+        throw new IllegalArgumentException("Invalid equipment information");
+    }
+
     this.equipmentId = equipmentId;
     this.name = name;
     this.capability = capability;
-    this.damaged = damaged;
+    this.damaged = false;
 }
 
+
+
+//getters
     public String getEquipmentId() {
         return equipmentId;
     }

@@ -1,11 +1,11 @@
 package marsops;
 
 public class LifeSupportSystem {
-    //OWNED BY THE HABITAT  CLASS IMPORTANT ((COMPOSITION))
-    // this class is has a composition relationship with the habitat meaning that 
+    // OWNED BY THE HABITAT CLASS IMPORTANT ((COMPOSITION))
+    // this class is has a composition relationship with the habitat meaning that
     // the lifesupportsystem is a part of the habitat class
     // each habitat has it own lifesupportsystem
-    //lifesupportSytem cant be an object for another facility
+    // lifesupportSytem cant be an object for another facility
 
     // it has :
     // 2 attributes : boolean oxygenCirculatiom,boolean airFiltration

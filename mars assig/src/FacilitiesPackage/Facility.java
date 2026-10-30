@@ -1,11 +1,12 @@
 package FacilitiesPackage;
 
-import EnumsP.ResourceType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+
+import EnumsP.ResourceType;
 import marsops.Equipment;
 
 public abstract class Facility {
@@ -42,9 +43,12 @@ public abstract class Facility {
 
     // constructor validate capacity should be a positive value
     public Facility(String facilityId, String location, int capacity) {
-        if (capacity < 0) {
-            throw new IllegalArgumentException("capacity cannot be negative");
 
+        if (facilityId == null || facilityId.isBlank()
+                || location == null || location.isBlank()
+                || capacity < 0) {
+
+            throw new IllegalArgumentException("Invalid facility information");
         }
 
         this.facilityId = facilityId;
@@ -81,8 +85,17 @@ public abstract class Facility {
 
     // methods
     public void addEquipment(Equipment item) {
+
         if (item == null) {
-            throw new IllegalArgumentException("Error 404 equipment cannot be NULL");
+            throw new IllegalArgumentException("Equipment cannot be null");
+        }
+
+        // Check for duplicate equipment IDs
+        for (Equipment existing : equipment) {
+
+            if (existing.getEquipmentId().equals(item.getEquipmentId())) {
+                throw new IllegalArgumentException("Duplicate equipment ID");
+            }
         }
 
         equipment.add(item);

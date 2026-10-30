@@ -7,7 +7,7 @@ public class HabitatTest {
 
     public static void main(String[] args) {
 
-        Habitat habitat = new Habitat("H01", "Mars Base Alpha", 10, null);
+        Habitat habitat = new Habitat("H01", "Mars Base Alpha", 10);
 
         // Add oxygen
         habitat.addResource(ResourceType.OXYGEN, 100);

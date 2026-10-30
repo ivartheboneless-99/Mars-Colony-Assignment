@@ -1,26 +1,27 @@
 package marsops;
 
-import EnumsP.ResourceType;
-import FacilitiesPackage.Facility;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import EnumsP.ResourceType;
+import FacilitiesPackage.Facility;
+
 public class ResourceManager {
 
-//the purpose of this class:
-// is to manage, track, distribute, check resources for all FACILITIES in the mars colony
+    // the purpose of this class:
+    // is to manage, track, distribute, check resources for all FACILITIES in the
+    // mars colony
 
-// we have :
-// 1 attribute and 7 methods in this class
+    // we have :
+    // 1 attribute and 8 methods in this class
 
-//attributes: private final List<Facility> facilities;
-//methods: addFacility()  getFacilities()  getTotalResource()  getAllResourceTotals()   validateRequest() hasEnoughResources()  consumeResources()
-
-
-
+    // attributes: private final List<Facility> facilities;
+    // methods: addFacility() getFacilities() getTotalResource()
+    // getAllResourceTotals() validateRequest() hasEnoughResources()
+    // consumeResources() getShortageReason()
 
     // Attributes
     private final List<Facility> facilities;
@@ -124,7 +125,8 @@ public class ResourceManager {
 
     // Consume resources using an all-or-nothing policy
     public boolean consumeResources(Map<ResourceType, Integer> request) {
-// goal is to deduct the requested resource if available if not available then consume nothing and return false
+        // goal is to deduct the requested resource if available if not available then
+        // consume nothing and return false
         validateRequest(request);
 
         // Phase 1: Check all requested resources
@@ -134,10 +136,12 @@ public class ResourceManager {
 
         // Phase 2: Consume from operational facilities
         // in the order they were registered
-        for (Map.Entry<ResourceType, Integer> entry : request.entrySet()) { // the entry set get both (key and value ) as a pair at once in the map list
+        for (Map.Entry<ResourceType, Integer> entry : request.entrySet()) { // the entry set get both (key and value )
+                                                                            // as a pair at once in the map list
 
-            ResourceType type = entry.getKey();  //in the enums we get only the name of the resource (Key) in the map list
-            int remaining = entry.getValue(); //we get the quantity (value) in the map list
+            ResourceType type = entry.getKey(); // in the enums we get only the name of the resource (Key) in the map
+                                                // list
+            int remaining = entry.getValue(); // we get the quantity (value) in the map list
 
             for (Facility facility : facilities) {
 
@@ -149,7 +153,14 @@ public class ResourceManager {
                 int taken = Math.min(available, remaining); // returns the min of the two numbers
 
                 if (taken > 0) {
-                    facility.consumeResource(type, taken);
+
+                    boolean consumed = facility.consumeResource(type, taken);
+
+                    if (!consumed) {
+                        throw new IllegalStateException(
+                                "Unexpected resource consumption failure");
+                    }
+
                     remaining -= taken;
                 }
 
@@ -157,8 +168,35 @@ public class ResourceManager {
                     break;
                 }
             }
+
+            if (remaining != 0) {
+                throw new IllegalStateException(
+                        "Resource allocation was incomplete");
+            }
+
         }
 
         return true;
     }
+
+    public String getShortageReason(Map<ResourceType, Integer> request) {
+
+        validateRequest(request);
+
+        for (Map.Entry<ResourceType, Integer> entry : request.entrySet()) {
+
+            ResourceType type = entry.getKey();
+            int required = entry.getValue();
+            int available = getTotalResource(type);
+
+            if (available < required) {
+                return "Insufficient " + type
+                        + ". Required: " + required
+                        + ", Available: " + available;
+            }
+        }
+
+        return null;
+    }
+
 }

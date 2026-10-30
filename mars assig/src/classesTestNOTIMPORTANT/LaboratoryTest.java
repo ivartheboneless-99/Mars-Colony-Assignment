@@ -13,7 +13,7 @@ public class LaboratoryTest {
 
         // Create research equipment
         Equipment microscope =
-                new Equipment("EQ01", "Microscope", "RESEARCH", false);
+                new Equipment("EQ01", "Microscope", "RESEARCH");
 
         // Add equipment to laboratory
         lab.addEquipment(microscope);
